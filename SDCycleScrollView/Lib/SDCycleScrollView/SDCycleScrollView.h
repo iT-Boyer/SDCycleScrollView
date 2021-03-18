@@ -80,6 +80,9 @@ typedef enum {
 
 @interface SDCycleScrollView : UIView
 
+/// 支持自定义flowlayout
+/// @param flowlayout 自定义collectionView样式
++ (instancetype)cycleScrollViewWithFlowlayout:(UICollectionViewFlowLayout *)flowlayout;
 
 /** 初始轮播图（推荐使用） */
 + (instancetype)cycleScrollViewWithFrame:(CGRect)frame delegate:(id<SDCycleScrollViewDelegate>)delegate placeholderImage:(UIImage *)placeholderImage;

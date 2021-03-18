@@ -65,6 +65,17 @@ NSString * const ID = @"SDCycleScrollViewCell";
     return self;
 }
 
+- (instancetype)initWithFlowlayout:(UICollectionViewFlowLayout *)flowlayout
+{
+    if (self = [super initWithFrame:CGRectZero]) {
+        if (flowlayout) {
+            self.flowLayout = flowlayout;
+        }
+        [self initialization];
+        [self setupMainView];
+    }
+    return self;
+}
 - (void)awakeFromNib
 {
     [super awakeFromNib];
@@ -95,6 +106,12 @@ NSString * const ID = @"SDCycleScrollViewCell";
     
     self.backgroundColor = [UIColor lightGrayColor];
     
+}
+
++(instancetype)cycleScrollViewWithFlowlayout:(UICollectionViewFlowLayout *)flowlayout
+{
+    SDCycleScrollView *cycleScrollView = [[self alloc] initWithFlowlayout:flowlayout];
+    return cycleScrollView;
 }
 
 + (instancetype)cycleScrollViewWithFrame:(CGRect)frame imageNamesGroup:(NSArray *)imageNamesGroup
@@ -131,12 +148,14 @@ NSString * const ID = @"SDCycleScrollViewCell";
 // 设置显示图片的collectionView
 - (void)setupMainView
 {
-    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    flowLayout.minimumLineSpacing = 0;
-    flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    _flowLayout = flowLayout;
-    
-    UICollectionView *mainView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:flowLayout];
+    UICollectionViewFlowLayout *flowLayout;
+    if (!_flowLayout) {
+        flowLayout = [[UICollectionViewFlowLayout alloc] init];
+        flowLayout.minimumLineSpacing = 0;
+        flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        _flowLayout = flowLayout;
+    }
+    UICollectionView *mainView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:_flowLayout];
     mainView.backgroundColor = [UIColor clearColor];
     mainView.pagingEnabled = YES;
     mainView.showsHorizontalScrollIndicator = NO;
