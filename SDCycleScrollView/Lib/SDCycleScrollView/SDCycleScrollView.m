@@ -72,7 +72,7 @@ NSString * const ID = @"SDCycleScrollViewCell";
             self.flowLayout = flowlayout;
         }
         [self initialization];
-        [self setupMainView];
+        [self setupFlowlayoutMainView];
     }
     return self;
 }
@@ -148,6 +148,27 @@ NSString * const ID = @"SDCycleScrollViewCell";
 // 设置显示图片的collectionView
 - (void)setupMainView
 {
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    flowLayout.minimumLineSpacing = 0;
+    flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    _flowLayout = flowLayout;
+    
+    UICollectionView *mainView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:flowLayout];
+    mainView.backgroundColor = [UIColor clearColor];
+    mainView.pagingEnabled = YES;
+    mainView.showsHorizontalScrollIndicator = NO;
+    mainView.showsVerticalScrollIndicator = NO;
+    [mainView registerClass:[SDCollectionViewCell class] forCellWithReuseIdentifier:ID];
+    
+    mainView.dataSource = self;
+    mainView.delegate = self;
+    mainView.scrollsToTop = NO;
+    [self addSubview:mainView];
+    _mainView = mainView;
+}
+
+- (void)setupFlowlayoutMainView
+{
     UICollectionViewFlowLayout *flowLayout;
     if (!_flowLayout) {
         flowLayout = [[UICollectionViewFlowLayout alloc] init];
@@ -168,7 +189,6 @@ NSString * const ID = @"SDCycleScrollViewCell";
     [self addSubview:mainView];
     _mainView = mainView;
 }
-
 
 #pragma mark - properties
 
